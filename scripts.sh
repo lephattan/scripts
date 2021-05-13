@@ -3,7 +3,8 @@ function create-python (){
 	cd $1
 	python3 -m venv env --prompt $1
 	git init .
-	wget -O .gitignore "https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore"
+	echo "Download .gitignore file..."
+	wget -O .gitignore "https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore" --quiet
 	echo "env/" >> .gitignore
 	touch main.py
 	git add .
