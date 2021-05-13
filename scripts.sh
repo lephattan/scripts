@@ -10,3 +10,16 @@ function create-python (){
 	git commit -m "Init commit"
 	echo "{$1} created sucessfully!"
 }
+
+function set-env (){
+	if test -f $1; then
+		# Show env vars
+		#grep -v '^#' $1
+
+		# Export env vars
+		export $(grep -v '^#' $1 | xargs)
+		echo "Envs loaded from $1!"
+	else
+		echo "Could not find $1"
+	fi
+}
