@@ -1,15 +1,32 @@
+function download_py_project_files(){
+	wget --quiet --show-progress -O .gitignore "https://raw.githubusercontent.com/lephattan/python-project-template/master/.gitignore"
+	wget --quiet --show-progress -O pyproject.toml "https://raw.githubusercontent.com/lephattan/python-project-template/master/pyproject.toml"
+	wget --quiet --show-progress -O .pre-commit-config.yaml "https://raw.githubusercontent.com/lephattan/python-project-template/master/.pre-commit-config.yaml"
+	wget --quiet --show-progress -O .flake8 "https://raw.githubusercontent.com/lephattan/python-project-template/master/.flake8"
+}
+
+function init_py_project(){
+	python3 -m venv env --prompt $1
+  touch requirements.in
+  touch requirements.txt
+	touch main.py
+  mkdir tests/
+  touch tests/__init__.py
+}
+
+function init_git(){
+	git init .
+	git add .
+	git commit -m "Init commit"
+  pre-commit install
+}
 function create-python (){
 	mkdir $1
 	cd $1
-	python3 -m venv env --prompt $1
-	git init .
-	echo "Download .gitignore file..."
-	wget -O .gitignore "https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore" --quiet
-	echo "env/" >> .gitignore
-	touch main.py
-	git add .
-	git commit -m "Init commit"
-	echo "{$1} created sucessfully!"
+  download_py_project_files
+  init_py_project $1
+  init_git
+	echo "$1 created sucessfully!"
 }
 
 function set-env (){
