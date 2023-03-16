@@ -41,3 +41,37 @@ function set-env (){
 		echo "Could not find $1"
 	fi
 }
+
+function get_env_path(){
+  EnvsPath="${PYTHON_ENVS:-$HOME/.envs}";
+  readlink -e "$EnvsPath";
+}
+
+function ls_env(){
+  env_path=$(get_env_path);
+  ls -la $env_path;
+}
+
+function create_env() {
+  envs_path=$(get_env_path);
+  env_path="$envs_path/$1"
+  python3.8 -m venv $env_path --prompt $1 && 
+  echo $env_path;
+}
+
+function ac_local(){
+  source env/bin/activate;
+}
+
+function ac_env(){
+  env_path=$(get_env_path);
+  source "$env_path/$1/bin/activate";
+}
+
+function ac(){
+  if ! [ -z "$1" ]; then
+    ac_env $1;
+  else
+    ac_local;
+  fi
+}
